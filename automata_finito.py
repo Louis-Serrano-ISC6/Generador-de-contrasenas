@@ -46,41 +46,38 @@ def validar_todo(caracter: str) -> bool:
 
 def analizar_cadena(cadena: str) -> list:
     estado_actual = "0"
-
-
+    pasos = []
+    pasos.append(estado_actual + cadena + "\n")
     for i in range(len(cadena)):
-        simbolo = cadena[0]  # Analizamos el primer símbolo
+        if i >= 15:
+            #pasos.append("❌ Cadena rechazada. La longitud supera los 15 caracteres.\n")
+            break
+
+        simbolo = cadena[0]
         transiciones = automata.get(estado_actual, [])
         encontrada = False
 
         for destino, tipo in transiciones:
             if diccionario_caracteres[tipo](simbolo):
                 estado_actual = destino
-                cadena = cadena[1:]  # Eliminamos el primer carácter
+                cadena = cadena[1:]
                 pasos.append(f"{estado_actual}{cadena}\n")
                 encontrada = True
                 break
 
         if not encontrada:
-            pasos.append(f"❌ No hay transición válida para '{simbolo}' desde el estado {estado_actual}\n")
-            pasos.append("🚫 Cadena rechazada.\n")
-            return pasos
+            break
 
     if estado_actual in {"12", "13", "14", "15", "16"}:
-        pasos.append(f"🎉 Cadena aceptada. Terminó en estado: {estado_actual}\n")
+        pasos.append(f"{estado_actual} ϵ F ∴ se acepta\n")
+        return pasos
 
     else:
-        pasos.append(f"❌ Cadena rechazada. No terminó en el estado final: {estado_actual}\n")
-
-    if len(cadena) > 15:
-        pasos.append("❌ Cadena rechazada. La longitud supera los 15 caracteres.\n")
+        pasos.append(f"{estado_actual} ∉ F ∴ se rechaza\n")
         return pasos
 
-    elif len(cadena) < 4:
-        pasos.append("❌ Cadena rechazada. La longitud es menor a 4 caracteres.\n")
-        return pasos
 
-    return pasos
+
 
 
 

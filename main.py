@@ -2,7 +2,6 @@ import customtkinter as ctk
 import tkinter as tk
 from automata_finito import analizar_cadena
 from prueba_contrasena import ValidarContrasena
-from PIL import Image, ImageTk
 import webbrowser
 
 import os
@@ -94,18 +93,19 @@ class AplicacionValidadorContrasena:
 
     def validar_contrasena(self):
         contrasena = self.entrada_contrasena.get()
-        pattern = r"^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)(?=.*[@*?\-])[A-Za-zñÑ][A-Za-zñÑ\d@*?\-]{4,13}$"
+        pattern = r"^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)(?=.*[@*?\-])[A-Za-zñÑ][A-Za-zñÑ\d@*?\-]{4,13}$" #Solo es para mostrar en la interfaz
 
         if contrasena.strip() == "":
             self.etiqueta_resultado.configure(text="Cadena vacia", text_color="orange")
             self.resetear_requisitos()
             self.etiqueta_expresion.configure(text="", text_color="black")
-            self.area_texto_grande.delete("0.0", "end")
+            self.area_texto_grande.insert("1.0", "ε")
             return
+
 
         self.comprobar_contrasena = ValidarContrasena()
 
-        cumple_requisitos = self.verificar_requisitos(contrasena)
+        self.verificar_requisitos(contrasena)
         es_valida = self.comprobar_contrasena.validar_contrasena(contrasena)
 
         if es_valida:
@@ -116,10 +116,11 @@ class AplicacionValidadorContrasena:
             color_texto = "red"
 
         self.etiqueta_expresion.configure(text=pattern, text_color=color_texto)
-        self.area_texto_grande.delete("0.0", "end")
+        self.area_texto_grande.delete(0.0, "end")
         self.entrada_contrasena.delete(0, 'end')
 
         lista_pasos = analizar_cadena(contrasena)
+
         for paso in lista_pasos:
             self.area_texto_grande.insert("end", paso)
 
