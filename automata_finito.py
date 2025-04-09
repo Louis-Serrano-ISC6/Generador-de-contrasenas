@@ -50,7 +50,6 @@ def analizar_cadena(cadena: str) -> list:
     pasos.append(estado_actual + cadena + "\n")
     for i in range(len(cadena)):
         if i >= 15:
-            #pasos.append("❌ Cadena rechazada. La longitud supera los 15 caracteres.\n")
             break
 
         simbolo = cadena[0]

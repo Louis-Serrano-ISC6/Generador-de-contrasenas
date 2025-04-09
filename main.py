@@ -95,8 +95,9 @@ class AplicacionValidadorContrasena:
         contrasena = self.entrada_contrasena.get()
         pattern = r"^(?=.*[a-zñ])(?=.*[A-ZÑ])(?=.*\d)(?=.*[@*?\-])[A-Za-zñÑ][A-Za-zñÑ\d@*?\-]{4,13}$" #Solo es para mostrar en la interfaz
 
-        if contrasena.strip() == "":
-            self.etiqueta_resultado.configure(text="Cadena vacia", text_color="orange")
+        if contrasena.strip() == "" and not " ":
+            self.area_texto_grande.delete(0.0, "end")
+            self.etiqueta_resultado.configure(text="Cadena vacia ε", text_color="orange")
             self.resetear_requisitos()
             self.etiqueta_expresion.configure(text="", text_color="black")
             self.area_texto_grande.insert("1.0", "ε")
